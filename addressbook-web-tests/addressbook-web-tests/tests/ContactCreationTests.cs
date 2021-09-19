@@ -19,5 +19,16 @@ namespace WebAddressbookTests
             app.Contacts.Add(contact);
             app.Auth.Logout();
         }
+
+        [Test]
+        public void EmptyContactCreationTest()
+        {
+            ContactData contact = new ContactData("", "");
+            contact.Middlename = "";
+            contact.Notes = "";
+
+            app.Contacts.Add(contact);
+            app.Auth.Logout();
+        }
     }
 }
