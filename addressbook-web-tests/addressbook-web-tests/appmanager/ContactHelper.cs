@@ -38,8 +38,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Modify(int v, ContactData newData)
         {
-            SelectContact(v);
-            InitContactModification(1);
+            InitContactModification(v);
             FillContactForm(newData);
             SubmitContactModification();
             manager.Navigator.ReturnToHomePage();
