@@ -16,14 +16,41 @@ namespace WebAddressbookTests
         }
         public void Login(AccountData account)
         {
+            if (IsLoggedIn())
+            {
+                if (IsLoggedIn(account))
+                {
+                    return;
+                }
+                Logout();
+            }
+            if (!IsElementPresent(By.Name("user")))//добавил это условие, потому что при вводе невалидных кредов открывается пустая страница с ошибкой в консоли браузера "Объект Components устарел. Скоро он будет удалён." - из-за этого не удаётся начать слудующий тест, где требуется логин. У вас на видео, почему то, после ввода не валидных кредов, пользователь остаётся на той же странице.
+            {
+                driver.Navigate().GoToUrl("http://localhost/addressbook/");
+            }           
             Type(By.Name("user"), account.Username);
             Type(By.Name("pass"), account.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         }
 
+        public bool IsLoggedIn()
+        {
+            return IsElementPresent(By.Name("logout"));
+        }
+
+        public bool IsLoggedIn(AccountData account)
+        {
+            return IsLoggedIn()
+                && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text 
+                    == "(" + account.Username + ")";
+        }
+
         public void Logout()
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
+            if (IsLoggedIn())
+            {
+                driver.FindElement(By.LinkText("Logout")).Click();
+            }
         }
     }
 }
