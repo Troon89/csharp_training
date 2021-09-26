@@ -14,7 +14,7 @@ namespace WebAddressbookTests
         {
             ContactData newData = new ContactData("User2", "Test2");
             newData.Middlename = "Middlename2";
-            newData.Notes = "qwe";
+            newData.Notes = null;
 
             app.Contacts.Modify(1, newData);
             app.Auth.Logout();
