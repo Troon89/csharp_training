@@ -16,7 +16,7 @@ namespace WebAddressbookTests
             GroupData newData = new GroupData("zzz");
             newData.Header = null;
             newData.Footer = null;
-
+            app.Groups.CheckForAtLeastOneGroup();
             app.Groups.Modify(1, newData);
         }
     }

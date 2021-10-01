@@ -34,13 +34,6 @@ namespace WebAddressbookTests
 
         public ContactHelper Modify(int v, ContactData newData)
         {
-            if (!IsElementPresent(By.XPath("//*[@title='Edit'][1]")))
-            {
-                ContactData contact = new ContactData("User1", "Test1");
-                contact.Middlename = "Middlename1";
-                contact.Notes = "123";
-                Add(contact);
-            }
             InitContactModification(v);
             FillContactForm(newData);
             SubmitContactModification();
@@ -48,7 +41,7 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper Remove(int v)
+        public ContactHelper CheckForAtLeastOneContact()
         {
             if (!IsElementPresent(By.XPath("//*[@title='Edit'][1]")))
             {
@@ -57,6 +50,11 @@ namespace WebAddressbookTests
                 contact.Notes = "123";
                 Add(contact);
             }
+            return this;
+        }
+
+        public ContactHelper Remove(int v)
+        {
             SelectContact(v);
             RemoveContact();
             return this;

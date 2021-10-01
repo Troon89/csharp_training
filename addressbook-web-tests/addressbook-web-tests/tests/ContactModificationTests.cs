@@ -17,6 +17,7 @@ namespace WebAddressbookTests
             newData.Middlename = "Middlename2";
             newData.Notes = null;
 
+            app.Contacts.CheckForAtLeastOneContact();
             app.Contacts.Modify(1, newData);
         }
     }

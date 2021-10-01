@@ -29,18 +29,24 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int v, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            if (!IsElementPresent(By.XPath("//div[@id='content']/form/span[1]/input")))
-            {
-                GroupData group = new GroupData("aaa");
-                group.Header = "ddd";
-                group.Footer = "fff";
-                Create(group);
-            }
             SelectGroup(v);
             InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
             ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper CheckForAtLeastOneGroup()
+        {
+            if (!IsElementPresent(By.XPath("//div[@id='content']/form/span[1]/input")))
+            {
+                manager.Navigator.GoToGroupsPage();
+                GroupData group = new GroupData("aaa");
+                group.Header = "ddd";
+                group.Footer = "fff";
+                Create(group);
+            }
             return this;
         }
 
