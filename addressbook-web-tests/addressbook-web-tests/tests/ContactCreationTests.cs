@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -16,7 +17,15 @@ namespace WebAddressbookTests
             contact.Middlename = "Middlename1";
             contact.Notes = "123";
 
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+
             app.Contacts.Add(contact);
+
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
 
         [Test]
@@ -28,5 +37,7 @@ namespace WebAddressbookTests
 
             app.Contacts.Add(contact);
         }
+        //не получилось добавить сравнение списка в этот тест 
+        //если в списке имеется пуcтой контакт, сравение падает с ошибкой: Индекс находился вне границ массива.  
     }
 }
