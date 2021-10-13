@@ -110,7 +110,7 @@ namespace WebAddressbookTests
                 ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@name='entry']"));
                 foreach (IWebElement element in elements)
                 {
-                    contactCache.Add(new ContactData(element.Text.Split(' ')[1], element.Text.Split(' ')[0]));
+                    contactCache.Add(new ContactData(element.FindElements(By.XPath(".//td"))[2].Text, element.FindElements(By.XPath(".//td"))[1].Text));
                 }
             }
 
