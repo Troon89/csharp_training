@@ -8,35 +8,13 @@ namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string firstName;
-        private string lastName;
-        private string middlename = "";
-        private string nickname = "";
-        private string company = "";
-        private string title = "";
-        private string address = "";
-        //Telephone
-        private string home = "";
-        private string mobile = "";
-        private string work = "";
-        private string fax = "";
-        //Web
-        private string email = "";
-        private string email2 = "";
-        private string email3 = "";
-        private string homepage = "";
-        //Birthday/Anniversary
-        private string byear = "";
-        private string ayear = "";
-        //Secondary
-        private string address2 = "";
-        private string phone2 = "";
-        private string notes = "";
+        private string allPhones;
+        private string allEmails;
 
         public ContactData(string firstName, string lastName)
         {
-            this.firstName = firstName;
-            this.lastName = lastName;
+            FirstName = firstName;
+            LastName = lastName;
         }
 
         public bool Equals(ContactData other)
@@ -49,16 +27,16 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return firstName == other.firstName && lastName == other.lastName;
+            return FirstName == other.FirstName && LastName == other.LastName;
         }
 
         override public int GetHashCode()
         {
-            return firstName.GetHashCode() + lastName.GetHashCode();
+            return FirstName.GetHashCode() + LastName.GetHashCode();
         }
         public override string ToString()
         {
-            return "First name=" + firstName + " Last name=" + lastName;
+            return "First name=" + FirstName + " Last name=" + LastName;
         }
 
         public int CompareTo(ContactData other)
@@ -68,7 +46,7 @@ namespace WebAddressbookTests
                 return 1;
             }
 
-            int compare = this.lastName.CompareTo(other.lastName);
+            int compare = this.LastName.CompareTo(other.LastName);
 
             if (compare == 0)
             {
@@ -79,244 +57,92 @@ namespace WebAddressbookTests
                 return compare;
             }
         }
-        public string FirstName
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Middlename { get; set; }
+
+        public string Nickname { get; set; }
+
+        public string Company { get; set; }
+
+        public string Title { get; set; }
+
+        public string Address { get; set; }
+
+        public string HomePhone { get; set; }
+
+        public string MobilePhone { get; set; }
+
+        public string WorkPhone { get; set; }
+
+        public string Fax { get; set; }
+
+        public string Email { get; set; }
+
+        public string Email2 { get; set; }
+
+        public string Email3 { get; set; }
+
+        public string Homepage { get; set; }
+
+        public string Byear { get; set; }
+
+        public string Ayear { get; set; }
+
+        public string Address2 { get; set; }
+
+        public string Phone2 { get; set; }
+
+        public string Notes { get; set; }
+
+        public string AllPhones
+        {
+            get
+            { 
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone).Trim();
+                }
+            } 
+            set
+            {
+                allPhones = value; 
+            }
+         }
+
+        public string AllEmails
         {
             get
             {
-                return firstName;
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                else
+                {
+                    return CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3).Trim();
+                }
             }
             set
             {
-                firstName = value;
+                allEmails = value;
             }
         }
 
-        public string LastName
+        private string CleanUp(string phone)
         {
-            get
+            if (phone == null || phone == "")
             {
-                return lastName;
+                return "";
             }
-            set
-            {
-                lastName = value;
-            }
-        }
-
-        public string Middlename
-        {
-            get
-            {
-                return middlename;
-            }
-            set
-            {
-                middlename = value;
-            }
-        }
-
-        public string Nickname
-        {
-            get
-            {
-                return nickname;
-            }
-            set
-            {
-                nickname = value;
-            }
-        }
-
-        public string Company
-        {
-            get
-            {
-                return company;
-            }
-            set
-            {
-                company = value;
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-            set
-            {
-                title = value;
-            }
-        }
-
-        public string Address
-        {
-            get
-            {
-                return address;
-            }
-            set
-            {
-                address = value;
-            }
-        }
-
-        public string Home
-        {
-            get
-            {
-                return home;
-            }
-            set
-            {
-                home = value;
-            }
-        }
-
-        public string Mobile
-        {
-            get
-            {
-                return mobile;
-            }
-            set
-            {
-                mobile = value;
-            }
-        }
-
-        public string Work
-        {
-            get
-            {
-                return work;
-            }
-            set
-            {
-                work = value;
-            }
-        }
-
-        public string Fax
-        {
-            get
-            {
-                return fax;
-            }
-            set
-            {
-                fax = value;
-            }
-        }
-
-        public string Email
-        {
-            get
-            {
-                return email;
-            }
-            set
-            {
-                email = value;
-            }
-        }
-
-        public string Email2
-        {
-            get
-            {
-                return email2;
-            }
-            set
-            {
-                email2 = value;
-            }
-        }
-
-        public string Email3
-        {
-            get
-            {
-                return email3;
-            }
-            set
-            {
-                email3 = value;
-            }
-        }
-
-        public string Homepage
-        {
-            get
-            {
-                return homepage;
-            }
-            set
-            {
-                homepage = value;
-            }
-        }
-
-        public string Byear
-        {
-            get
-            {
-                return byear;
-            }
-            set
-            {
-                byear = value;
-            }
-        }
-
-        public string Ayear
-        {
-            get
-            {
-                return ayear;
-            }
-            set
-            {
-                ayear = value;
-            }
-        }
-
-        public string Address2
-        {
-            get
-            {
-                return address2;
-            }
-            set
-            {
-                address2 = value;
-            }
-        }
-
-        public string Phone2
-        {
-            get
-            {
-                return phone2;
-            }
-            set
-            {
-                phone2 = value;
-            }
-        }
-
-        public string Notes
-        {
-            get
-            {
-                return notes;
-            }
-            set
-            {
-                notes = value;
-            }
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
     }
 }

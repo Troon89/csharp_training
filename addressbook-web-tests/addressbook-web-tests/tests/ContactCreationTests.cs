@@ -16,6 +16,11 @@ namespace WebAddressbookTests
             ContactData contact = new ContactData("User1", "Test1");
             contact.Middlename = "Middlename1";
             contact.Notes = "123";
+            contact.Address = "TestAddress";
+            contact.HomePhone = "+79630000000";
+            contact.MobilePhone = "+79630000001";
+            contact.WorkPhone = "+79630000002";
+
 
             List<ContactData> oldContacts = app.Contacts.GetContactList();
 
