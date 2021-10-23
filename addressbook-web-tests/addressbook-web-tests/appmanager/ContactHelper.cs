@@ -224,6 +224,7 @@ namespace WebAddressbookTests
                     contactCache.Add(new ContactData(element.FindElements(By.XPath(".//td"))[2].Text, element.FindElements(By.XPath(".//td"))[1].Text));
                 }
             }
+
             return new List<ContactData>(contactCache);
         }
     }
