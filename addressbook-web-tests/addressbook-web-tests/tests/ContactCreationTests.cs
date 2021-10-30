@@ -10,18 +10,27 @@ namespace WebAddressbookTests
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
-        [Test]
-        public void ContactCreationTest()
+        public static IEnumerable<ContactData> RandomContactDataProvider()
         {
-            ContactData contact = new ContactData("User1", "Test1");
-            contact.Middlename = "Middlename1";
-            contact.Notes = "123";
-            contact.Address = "TestAddress";
-            contact.HomePhone = "+79630000000";
-            contact.MobilePhone = "+79630000001";
-            contact.WorkPhone = "+79630000002";
+            List<ContactData> contacts = new List<ContactData>();
+            for (int i = 0; i < 5; i++)
+            {
+                contacts.Add(new ContactData(GenerateRandomString(30), GenerateRandomString(30))
+                {
+                    Middlename = GenerateRandomString(30),
+                    Notes = GenerateRandomString(30),
+                    Address = GenerateRandomString(30),
+                    HomePhone = GenerateRandomString(30),
+                    MobilePhone = GenerateRandomString(30),
+                    WorkPhone = GenerateRandomString(30)
+                });
+            }
+            return contacts;
+        }
 
-
+        [Test, TestCaseSource("RandomContactDataProvider")]
+        public void ContactCreationTest(ContactData contact)
+        {
             List<ContactData> oldContacts = app.Contacts.GetContactList();
 
             app.Contacts.Add(contact);
@@ -32,17 +41,5 @@ namespace WebAddressbookTests
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
         }
-
-        [Test]
-        public void EmptyContactCreationTest()
-        {
-            ContactData contact = new ContactData("", "");
-            contact.Middlename = "";
-            contact.Notes = "";
-
-            app.Contacts.Add(contact);
-        }
-        //не получилось добавить сравнение списка в этот тест 
-        //если в списке имеется пуcтой контакт, сравение падает с ошибкой: Индекс находился вне границ массива.  
     }
 }

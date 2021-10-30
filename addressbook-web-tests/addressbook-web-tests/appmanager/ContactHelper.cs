@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
@@ -224,8 +225,28 @@ namespace WebAddressbookTests
                     contactCache.Add(new ContactData(element.FindElements(By.XPath(".//td"))[2].Text, element.FindElements(By.XPath(".//td"))[1].Text));
                 }
             }
-
             return new List<ContactData>(contactCache);
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+            return Int32.Parse(m.Value);
+        }
+
+        public int GetNumberOfDesplayedSrting()
+        {
+            int countOfStrings = driver.FindElements(By.XPath("//*[@name='entry']")).Count;
+            int countOfDisplayedStrings = driver.FindElements(By.XPath("//*[@name='entry' and @style='display: none;']")).Count;
+            return countOfStrings - countOfDisplayedStrings;
+        }
+
+        public ContactHelper UseSearch(string query)
+        {
+            manager.Navigator.OpenHomePage();
+            driver.FindElement(By.XPath("//*[@name='searchstring']")).SendKeys(query);
+            return this;
         }
     }
 }
