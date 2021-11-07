@@ -20,11 +20,11 @@ namespace WebAddressbookTests
             newData.Header = null;
             newData.Footer = null;
             app.Groups.CheckForAtLeastOneGroup();
-            app.Groups.Modify(0, newData);
+            app.Groups.Modify(oldData, newData);
 
-            Assert.AreEqual(oldGroups.Count, GroupData.GetAll());
+            Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
