@@ -9,7 +9,7 @@ namespace WebAddressbookTests
 {
     public class TestBase
     {
-
+        public static bool PERFORM_LONG_UI_CHECK = false;
         protected ApplicationManager app;
 
         [SetUp]
