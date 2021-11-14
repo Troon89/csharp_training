@@ -66,6 +66,15 @@ namespace WebAddressbookTests
             }
         }
 
+        public string StringHomePage(string homepage)
+        {
+            if (homepage == null || homepage == "")
+            {
+                return "";
+            }
+            return "Homepage:" + "\r\n" + homepage;
+        }
+
         [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
 
@@ -145,7 +154,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return Email + "\r\n" + Email2 + "\r\n" + Email3 + "\r\n".Trim();
+                    return (EndLineSymbols(Email) + EndLineSymbols(Email2) + EndLineSymbols(Email3)).Trim();
                 }
             }
             set
@@ -164,7 +173,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUpAllDetails(Details).Trim();
+                    return Details.Trim();
                 }
             }
             set
@@ -183,7 +192,11 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return CleanUpAllDetails(FirstName + " " + Middlename + " " + LastName + Nickname + Title + Company + Address + HomePhone + MobilePhone + WorkPhone + Email + Email2 + Email3 + Homepage).Trim();
+                    return (EndLineSymbols(EndLineSymbols(ContactDetailsList(
+                        FirstName, Middlename, LastName, Nickname, Title, Company, Address)))
+                        + EndLineSymbols(EndLineSymbols(GetTelephoneList(HomePhone, MobilePhone, WorkPhone)))
+                        + EndLineSymbols(EndLineSymbols(GetEmailList(Email, Email2, Email3, Homepage)))
+                        + StartLineSymbols(Notes)).Trim();
                 }
             }
             set
@@ -192,6 +205,101 @@ namespace WebAddressbookTests
             }
         }
 
+        public string StartLineSymbols(string line)
+        {
+            if (line == null || line == "")
+            {
+                return "";
+            }
+            return "\r\n" + line;
+        }
+        public string EndLineSymbols(string line)
+        {
+            if (line == null || line == "")
+            {
+                return "";
+            }
+            return line + "\r\n";
+        }
+
+        public string GetFullName(string firstname, string middlename, string lastname)
+        {
+            string form = "";
+
+            if (firstname != null && firstname != "")
+            {
+                form = FirstName + " ";
+            }
+            if (middlename != null && middlename != "")
+            {
+                form = form + Middlename + " ";
+            }
+            if (lastname != null && lastname != "")
+            {
+                form = form + LastName + " ";
+            }
+            return form.Trim();
+        }
+
+        public string ContactDetailsList(
+          string firstname,
+          string middlename,
+          string lastname,
+          string nickname,
+          string title,
+          string company,
+          string address)
+        {
+            return (EndLineSymbols(GetFullName(firstname, middlename, lastname))
+                + EndLineSymbols(nickname)
+                + EndLineSymbols(title)
+                + EndLineSymbols(company)
+                + EndLineSymbols(address)).Trim();
+        }
+
+        public string GetTelephoneList(string home, string mobile, string work)
+        {
+            string form = "";
+
+            if (home != null && home != "")
+            {
+                form = form + "H: " + EndLineSymbols(HomePhone);
+            }
+            if (mobile != null && mobile != "")
+            {
+                form = form + "M: " + EndLineSymbols(MobilePhone);
+            }
+            if (work != null && work != "")
+            {
+                form = form + "W: " + EndLineSymbols(WorkPhone);
+            }
+            return form.Trim();
+        }
+
+        public string GetEmailList(string email, string email2, string email3, string homepage)
+        {
+            string form = "";
+
+            if (email != null && email != "")
+            {
+                form = form + EndLineSymbols(email);
+            }
+            if (email2 != null && email2 != "")
+            {
+                form = form + EndLineSymbols(email2);
+            }
+            if (email3 != null && email3 != "")
+            {
+                form = form + EndLineSymbols(email3);
+            }
+            if (homepage != null && homepage != "")
+            {
+                form = form + EndLineSymbols(StringHomePage(homepage));
+            }
+            return form.Trim();
+        }
+
+
         private string CleanUp(string phone)
         {
             if (phone == null || phone == "")
@@ -199,15 +307,6 @@ namespace WebAddressbookTests
                 return "";
             }
             return  Regex.Replace(phone, "[ -()]","") + "\r\n";
-        }
-
-        private string CleanUpAllDetails(string value)
-        {
-            if (value == null || value == "")
-            {
-                return "";
-            }
-            return value.Replace("\r\n", "").Replace("H: ", "").Replace("M: ", "").Replace("W: ", "").Replace("Homepage:", "").Replace(" ", "");
         }
 
         public static List<ContactData> GetAll()

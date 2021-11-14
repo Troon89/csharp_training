@@ -134,6 +134,8 @@ namespace WebAddressbookTests
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
             string homePage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
 
+            string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
+
             return new ContactData(firstName, lastName)
             {
                 Address = address,
@@ -147,7 +149,8 @@ namespace WebAddressbookTests
                 Nickname = nickName,
                 Title = title,
                 Company = company,
-                Homepage = homePage
+                Homepage = homePage,
+                Notes = notes
             };
         }
 
