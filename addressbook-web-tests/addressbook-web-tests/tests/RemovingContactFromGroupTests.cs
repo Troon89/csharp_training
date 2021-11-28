@@ -14,13 +14,28 @@ namespace WebAddressbookTests
 {
     public class RemovingContactFromGroupTests : AuthTestBase
     {
+        private ContactData contact;
+
         [Test]
         public void TestRemovingContactFromGroup()
         {
+            app.Navigator.OpenHomePage();
+            app.Contacts.CheckForAtLeastOneContact();
+
+            app.Navigator.GoToGroupsPage();
+            app.Groups.CheckForAtLeastOneGroup();
+
             GroupData group = GroupData.GetAll()[0];
             List<ContactData> oldList = group.GetContacts();
-            ContactData contact = ContactData.GetAll().First();
-
+            if (oldList.Count != 0)
+            {
+                contact = oldList[0];
+            }
+            else
+            {
+                contact = ContactData.GetAll()[0];
+                app.Contacts.AddContactToGroup(contact, group);
+            }
             app.Contacts.RemoveContactFromGroup(contact, group);
 
             List<ContactData> newList = group.GetContacts();
